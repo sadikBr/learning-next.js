@@ -6,7 +6,13 @@
 
 ## Next.JS Rendering
 
-- ### Resume (Server and Client composition patterns)
+- ### CSR - Client Side Rendering
+- ### SSR - Server Side Rendering
+- ### Suspense for SSR
+- ### Server and Client Components
+- ### Static and Dynamic Rendering
+- ### Streaming
+- ### Server and Client Composition Patterns
 
   - Server Components
 
