@@ -16,7 +16,7 @@
 
   - Server Components
 
-    - Fetching Data.
+    - Fetching Data (They can be async components, so we can use the await keyword by default without any problems).
     - Directly accessing backend resources.
     - Protecting sensitive information (like access tokens and API keys) on the server.
     - Keeping large dependencies server-side, which helps in reducing client-side JavaScript.
@@ -49,3 +49,12 @@
     - We can not use a Server component inside a Client Component directly, but we can use a workaround in case we need to invoke a Server component inside a Client component. The workaround is to use the Server component as a Child of the Client component (see the example in the [Interleaving](./next.js-rendering/src/app/interleaving/page.tsx) route)
 
 ## Next.JS Data Fetching
+
+- In this section, we will use [{JSON} Placeholder](http://jsonplaceholder.typicode.com/)
+- It is a free fake and reliable API for testing and prototyping.
+- Powered by <u>JSON Server</u> + <u>LowDB</u>
+
+- ### Fetching Data with Server Components
+
+  - In server components, you can fetch data directly inside the component body without the need to use useState() or useEffect(). We can use any library to fetch the data then use the returned results inside the return statement of the Component (see [users](./next.js-data-fetching/src/app/users/page.tsx) folder for an example).
+  - To handle loading and error states while fetching data in Server Components we can create a [loading.tsx](./next.js-data-fetching/src/app/users/loading.tsx) and [error.tsx](./next.js-data-fetching/src/app/users/error.tsx) components and default export them.
