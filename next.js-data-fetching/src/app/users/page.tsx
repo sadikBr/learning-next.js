@@ -8,10 +8,10 @@ type User = {
   phone: string;
 };
 
-export default async function Users() {
+export default async function UsersPage() {
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  const response = await axios.get('http://jsonplaceholder.typicode.com/users1');
+  const response = await axios.get('http://jsonplaceholder.typicode.com/users');
   const users: User[] = response.data.map((user: User) => {
     return {
       id: user.id,

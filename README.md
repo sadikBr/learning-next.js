@@ -58,3 +58,9 @@
 
   - In server components, you can fetch data directly inside the component body without the need to use useState() or useEffect(). We can use any library to fetch the data then use the returned results inside the return statement of the Component (see [users](./next.js-data-fetching/src/app/users/page.tsx) folder for an example).
   - To handle loading and error states while fetching data in Server Components we can create a [loading.tsx](./next.js-data-fetching/src/app/users/loading.tsx) and [error.tsx](./next.js-data-fetching/src/app/users/error.tsx) components and default export them.
+  - To understand how caching works in Next.JS in Server Components, refer to the products folder in [page.tsx](./next.js-data-fetching/src/app/products/page.tsx) file for more details.
+  - Server components have also the concept of Memoization by default, to have more information about it refer to the [layout.tsx](./next.js-data-fetching/src/app/products/layout.tsx) file in products folder
+
+- ### Fetching Data with Client Components
+
+  - It is done as we do it all the time in React, by using useState() and useEffect() hooks. Or by creating a custom hook that handles everything and returns the data at the end. (see the [products-client](./next.js-data-fetching/src/app/products-client/page.tsx) folder for an example)
