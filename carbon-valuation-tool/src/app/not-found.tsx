@@ -26,6 +26,7 @@ const NotFoundPage = () => {
       <div className='w-3/5'>
         <Image
           className='w-full pointer-events-none'
+          priority
           src={NotFoundImage}
           alt='home page banner'
           width={2448}

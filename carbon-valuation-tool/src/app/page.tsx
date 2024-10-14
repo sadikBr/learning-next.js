@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { currentUser } from '@clerk/nextjs/server';
 
 import HomePageImage from '../assets/banner-image.png';
+import { currentUser } from '@clerk/nextjs/server';
 
 const HomePage = async () => {
   const user = await currentUser();
@@ -28,6 +28,7 @@ const HomePage = async () => {
       <div className='w-2/3'>
         <Image
           className='w-full pointer-events-none'
+          priority
           src={HomePageImage}
           alt='home page banner'
           width={1606}

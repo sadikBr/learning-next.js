@@ -62,6 +62,19 @@ CREATE TABLE IF NOT EXISTS "unit" (
 	"unit" text NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "project" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"title" text NOT NULL,
+	"description" text NOT NULL,
+	"department" text NOT NULL,
+	"region_id" uuid NOT NULL,
+	"sector_id" uuid NOT NULL,
+	"client_name" text NOT NULL,
+	"start_data" date NOT NULL,
+	"end_date" date,
+	"clerk_user_id" text NOT NULL
+);
+--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "activity" ADD CONSTRAINT "activity_category_id_category_id_fk" FOREIGN KEY ("category_id") REFERENCES "public"."category"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
@@ -106,6 +119,18 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "sector" ADD CONSTRAINT "sector_scope_id_scope_id_fk" FOREIGN KEY ("scope_id") REFERENCES "public"."scope"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "project" ADD CONSTRAINT "project_region_id_region_id_fk" FOREIGN KEY ("region_id") REFERENCES "public"."region"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "project" ADD CONSTRAINT "project_sector_id_sector_id_fk" FOREIGN KEY ("sector_id") REFERENCES "public"."sector"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

@@ -22,3 +22,7 @@ body {
 .custom-home-height {
   height: calc(100vh - 7rem);
 }
+
+.container {
+  max-width: 90vw;
+}
