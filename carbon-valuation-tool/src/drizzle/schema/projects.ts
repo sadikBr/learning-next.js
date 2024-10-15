@@ -1,5 +1,11 @@
-import { date, pgTable, text, uuid } from 'drizzle-orm/pg-core';
+import { date, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { RegionTable, SectorTable } from './emissions';
+
+export const timestamps = {
+  updated_at: timestamp(),
+  created_at: timestamp().defaultNow().notNull(),
+  deleted_at: timestamp(),
+};
 
 export const ProjectTable = pgTable('project', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -16,4 +22,5 @@ export const ProjectTable = pgTable('project', {
   startDate: date('start_data').notNull(),
   endDate: date('end_date'),
   clerkUserId: text('clerk_user_id').notNull(),
+  ...timestamps,
 });

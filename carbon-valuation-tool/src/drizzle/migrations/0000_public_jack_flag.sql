@@ -72,7 +72,10 @@ CREATE TABLE IF NOT EXISTS "project" (
 	"client_name" text NOT NULL,
 	"start_data" date NOT NULL,
 	"end_date" date,
-	"clerk_user_id" text NOT NULL
+	"clerk_user_id" text NOT NULL,
+	"updated_at" timestamp,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"deleted_at" timestamp
 );
 --> statement-breakpoint
 DO $$ BEGIN
