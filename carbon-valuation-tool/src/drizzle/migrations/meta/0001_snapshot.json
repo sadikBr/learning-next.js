@@ -1,6 +1,6 @@
 {
-  "id": "5f03e0c2-b595-4231-b210-1b81adaa890a",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "b18339ff-4298-4bde-b014-17db17939dd3",
+  "prevId": "5f03e0c2-b595-4231-b210-1b81adaa890a",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -563,8 +563,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "start_data": {
-          "name": "start_data",
+        "start_date": {
+          "name": "start_date",
           "type": "date",
           "primaryKey": false,
           "notNull": true

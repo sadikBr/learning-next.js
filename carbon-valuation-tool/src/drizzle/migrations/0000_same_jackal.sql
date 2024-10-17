@@ -62,20 +62,34 @@ CREATE TABLE IF NOT EXISTS "unit" (
 	"unit" text NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "milestone" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" text NOT NULL,
+	"completed" boolean DEFAULT false NOT NULL,
+	"project_id" uuid NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "project" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"title" text NOT NULL,
 	"description" text NOT NULL,
 	"department" text NOT NULL,
-	"region_id" uuid NOT NULL,
-	"sector_id" uuid NOT NULL,
+	"region" text NOT NULL,
+	"sector" text NOT NULL,
 	"client_name" text NOT NULL,
 	"start_data" date NOT NULL,
 	"end_date" date,
+	"budget" text NOT NULL,
 	"clerk_user_id" text NOT NULL,
 	"updated_at" timestamp,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"deleted_at" timestamp
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "stakeholder" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" text NOT NULL,
+	"project_id" uuid NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN
@@ -127,13 +141,16 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "project" ADD CONSTRAINT "project_region_id_region_id_fk" FOREIGN KEY ("region_id") REFERENCES "public"."region"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "milestone" ADD CONSTRAINT "milestone_project_id_project_id_fk" FOREIGN KEY ("project_id") REFERENCES "public"."project"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "project" ADD CONSTRAINT "project_sector_id_sector_id_fk" FOREIGN KEY ("sector_id") REFERENCES "public"."sector"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "stakeholder" ADD CONSTRAINT "stakeholder_project_id_project_id_fk" FOREIGN KEY ("project_id") REFERENCES "public"."project"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
+--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "region_name_index" ON "region" USING btree ("name");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "sector_name_index" ON "sector" USING btree ("name");

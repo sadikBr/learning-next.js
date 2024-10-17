@@ -1,17 +1,23 @@
-import { pgTable, text, uuid } from 'drizzle-orm/pg-core';
+import { index, pgTable, text, uuid } from 'drizzle-orm/pg-core';
 
 export const ScopeTable = pgTable('scope', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
 });
 
-export const SectorTable = pgTable('sector', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  name: text('name').notNull(),
-  scopeId: uuid('scope_id')
-    .notNull()
-    .references(() => ScopeTable.id, { onDelete: 'cascade' }),
-});
+export const SectorTable = pgTable(
+  'sector',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    name: text('name').notNull(),
+    scopeId: uuid('scope_id')
+      .notNull()
+      .references(() => ScopeTable.id, { onDelete: 'cascade' }),
+  },
+  (table) => ({
+    nameIndex: index('sector_name_index').on(table.name),
+  })
+);
 
 export const CategoryTable = pgTable('category', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -43,11 +49,17 @@ export const DatasetTable = pgTable('dataset', {
     .references(() => SourceTable.id, { onDelete: 'cascade' }),
 });
 
-export const RegionTable = pgTable('region', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  name: text('name').notNull(),
-  code: text('code').notNull(),
-});
+export const RegionTable = pgTable(
+  'region',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    name: text('name').notNull(),
+    code: text('code').notNull(),
+  },
+  (table) => ({
+    nameIndex: index('region_name_index').on(table.name),
+  })
+);
 
 export const UnitTable = pgTable('unit', {
   id: uuid('id').primaryKey().defaultRandom(),
