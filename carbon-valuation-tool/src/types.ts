@@ -37,3 +37,20 @@ export type Project = {
   milestone: Milestone[];
   stakeholder: Stakeholder[];
 };
+
+export type DatabaseProject = {
+  id: string;
+  title: string;
+  description: string;
+  department: string;
+  region: string;
+  sector: string;
+  clientName: string;
+  startDate: string;
+  endDate: string | null;
+  budget: string;
+  clerkUserId: string;
+  updated_at: Date | null;
+  created_at: Date;
+  deleted_at: Date | null;
+};
