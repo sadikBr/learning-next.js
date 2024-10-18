@@ -1,33 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FormData } from '@/app/projects/new/page';
 import { UseFormRegister } from 'react-hook-form';
 
-type Register = UseFormRegister<FormData>;
-type ID =
-  | 'title'
-  | 'description'
-  | 'department'
-  | 'region'
-  | 'sector'
-  | 'clientName'
-  | 'startDate'
-  | 'endDate'
-  | 'budget';
-
-export default function FormInput({
-  id,
-  type,
-  register,
-}: {
-  id: ID;
+interface FormInputProps {
+  id: string;
   type: string;
-  register: Register;
-}) {
+  register: UseFormRegister<any>;
+}
+
+const FormInput: React.FC<FormInputProps> = ({ id, type, register }) => {
   return (
     <input
+      className='flex-1 px-2 py-1'
       id={id}
       type={type}
-      min={type === 'number' ? 100 : undefined}
       {...(type === 'date'
         ? { ...register(id, { valueAsDate: true }) }
         : type === 'number'
@@ -35,4 +20,6 @@ export default function FormInput({
         : { ...register(id) })}
     />
   );
-}
+};
+
+export default FormInput;

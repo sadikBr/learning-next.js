@@ -1,19 +1,30 @@
-export default function InputLabel({
-  children,
+interface InputLabelProps {
+  value: string;
+  htmlFor: string;
+  errorMessage?: string;
+  children: React.ReactNode;
+}
+
+const InputLabel: React.FC<InputLabelProps> = ({
   value,
   htmlFor,
   errorMessage,
-}: {
-  children: React.ReactNode;
-  value: string;
-  htmlFor: string;
-  errorMessage: string | undefined;
-}) {
+  children,
+}) => {
   return (
-    <div>
-      <label htmlFor={htmlFor}>{value}</label>
+    <div className='flex flex-col w-full gap-1'>
+      <label
+        className='font-semibold uppercase text-blue-950'
+        htmlFor={htmlFor}
+      >
+        {value}
+      </label>
       {children}
-      {errorMessage && <p>{errorMessage}</p>}
+      {errorMessage && (
+        <p className='text-red-500 text-xs font-light'>{errorMessage}</p>
+      )}
     </div>
   );
-}
+};
+
+export default InputLabel;

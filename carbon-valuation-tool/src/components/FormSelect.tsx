@@ -1,39 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FormData } from '@/app/projects/new/page';
+import React from 'react';
 import { UseFormRegister } from 'react-hook-form';
+import { Region, Sector } from '@/types';
 
-type Register = UseFormRegister<FormData>;
-type ID =
-  | 'title'
-  | 'description'
-  | 'department'
-  | 'region'
-  | 'sector'
-  | 'clientName'
-  | 'startDate'
-  | 'endDate'
-  | 'budget';
+interface FormSelectProps {
+  id: string;
+  register: UseFormRegister<any>;
+  values: Region[] | Sector[];
+  defaultText: string;
+}
 
-export default function FormSelect({
+const FormSelect: React.FC<FormSelectProps> = ({
   id,
-  defaultText,
   register,
   values,
-}: {
-  id: ID;
-  defaultText: string;
-  register: Register;
-  values: any[];
-}) {
+  defaultText,
+}) => {
   return (
-    <select id={id} {...register(id)}>
-      <option value=''>{defaultText}</option>
-      {values.length !== 0 &&
-        values.map((value) => (
-          <option key={value.id} value={value.name}>
-            {value.name}
-          </option>
-        ))}
+    <select className='flex-1 px-2 py-1' id={id} {...register(id)}>
+      <option>{defaultText}</option>
+      {values.map((value, index) => (
+        <option key={index} value={value.name}>
+          {value.name}
+        </option>
+      ))}
     </select>
   );
-}
+};
+
+export default FormSelect;

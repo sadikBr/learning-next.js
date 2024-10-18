@@ -1,16 +1,19 @@
 'use server';
 
-import { FormData } from '@/app/projects/new/page';
 import { db } from '@/drizzle/db';
-import { ProjectTable } from '@/drizzle/schema/projects';
+import {
+  MilestoneTable,
+  ProjectTable,
+  StakeholderTable,
+} from '@/drizzle/schema/projects';
+import { Project } from '@/types';
+import { FormData } from '@/zod_schemas/project_schema';
 import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
-type FormDataExtended = Omit<FormData, 'startDate' | 'endDate'> & {
-  startDate: string;
-  endDate: string | null;
-};
+export async function createNewProject(formData: FormData) {
+  const { milestone, stakeholder, ...projectData } = formData;
 
-export async function createNewProject(projectData: FormDataExtended) {
   const { userId } = auth();
 
   if (!userId) {
@@ -24,11 +27,32 @@ export async function createNewProject(projectData: FormDataExtended) {
     .values({
       clerkUserId: userId,
       ...projectData,
+      startDate: projectData.startDate as unknown as string,
+      endDate: (projectData.endDate as unknown as string) || undefined,
       budget: `$${projectData.budget}`,
     })
     .returning({ insertedId: ProjectTable.id });
 
-  return { insertedId: response[0].insertedId };
+  for (let i = 0; i < milestone.length; i++) {
+    const item = milestone[i];
+
+    await db.insert(MilestoneTable).values({
+      name: item.name,
+      completed: item.completed,
+      projectId: response[0].insertedId,
+    });
+  }
+
+  for (let i = 0; i < stakeholder.length; i++) {
+    const item = stakeholder[i];
+
+    await db.insert(StakeholderTable).values({
+      name: item.name,
+      projectId: response[0].insertedId,
+    });
+  }
+
+  return redirect(`/projects/${response[0].insertedId}`);
 }
 
 export async function getAllProjectsForRegularUser() {
@@ -47,7 +71,7 @@ export async function getAllProjectsForRegularUser() {
   return projects;
 }
 
-export async function getProjectByID(projectId: string) {
+export async function getProjectByID(projectId: string): Promise<Project> {
   const { userId, orgRole } = auth();
 
   if (!userId) {
@@ -60,13 +84,19 @@ export async function getProjectByID(projectId: string) {
     where: (ProjectTable, { eq }) => eq(ProjectTable.id, projectId),
     with: {
       milestone: {
-        columns: { id: true, name: true },
+        columns: { name: true, completed: true },
       },
       stakeholder: {
-        columns: { id: true, name: true },
+        columns: { name: true },
       },
     },
   });
+
+  if (!project) {
+    throw new Error('Not Found', {
+      cause: 'The requested project does not exist',
+    });
+  }
 
   if (project?.clerkUserId !== userId && orgRole !== 'org:admin') {
     throw new Error('Un-Authorized', {
@@ -74,7 +104,18 @@ export async function getProjectByID(projectId: string) {
     });
   }
 
-  return project;
+  return {
+    ...project,
+    startDate: new Date(project.startDate).toLocaleDateString(
+      'en-CA'
+    ) as unknown as Date,
+    endDate: project.endDate
+      ? (new Date(project.endDate).toLocaleDateString(
+          'en-CA'
+        ) as unknown as Date)
+      : undefined,
+    budget: parseInt(project.budget.replace('$', '')),
+  };
 }
 
-export async function editProjectByID() {}
+export async function editProjectByID(project: Project) {}
