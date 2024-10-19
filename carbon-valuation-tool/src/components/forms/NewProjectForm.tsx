@@ -8,10 +8,13 @@ import { getAllSectors } from '@/server-actions/sectors';
 import { Region, Sector } from '@/types';
 import { createNewProject } from '@/server-actions/projects';
 import BaseForm from './BaseForm';
+import LoadingSpinner from '../LoadingSpinner';
 
 export default function NewProjectForm() {
   const [regions, setRegions] = useState<Region[]>([]);
   const [sectors, setSectors] = useState<Sector[]>([]);
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function getRegionsAndSectors() {
@@ -20,7 +23,9 @@ export default function NewProjectForm() {
       setRegions(regions);
       setSectors(sectors);
     }
-    getRegionsAndSectors();
+    getRegionsAndSectors().then(() => {
+      setLoading(false);
+    });
   }, []);
 
   const {
@@ -32,9 +37,14 @@ export default function NewProjectForm() {
     resolver: zodResolver(projectSchema),
   });
 
-  return (
+  return loading ? (
+    <LoadingSpinner />
+  ) : (
     <BaseForm
-      onSubmit={handleSubmit((data) => createNewProject(data))}
+      onSubmit={handleSubmit((data) => {
+        setLoading(true);
+        createNewProject(data);
+      })}
       control={control}
       register={register}
       errors={errors}

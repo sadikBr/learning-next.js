@@ -18,6 +18,7 @@
     "@neondatabase/serverless": "^0.10.1",
     "drizzle-orm": "^0.34.1",
     "next": "14.2.15",
+    "numeral": "^2.0.6",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/numeral": "^2.0.5",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "drizzle-kit": "^0.25.0",
