@@ -1,4 +1,5 @@
 import numeral from 'numeral';
+import { format } from 'date-fns';
 
 import { getProjectByID } from '@/server-actions/projects';
 import Link from 'next/link';
@@ -40,12 +41,12 @@ export default async function ProjectPage({
           </p>
           <p>
             <strong className='text-primary'>Start Date:</strong>{' '}
-            {new Date(project.startDate).toLocaleDateString()}
+            {format(new Date(project.startDate), 'EEEE, MMMM dd, yyyy')}
           </p>
           {project.endDate && (
             <p>
               <strong className='text-primary'>End Date:</strong>{' '}
-              {new Date(project.endDate).toLocaleDateString()}
+              {format(new Date(project.endDate), 'EEEE, MMMM dd, yyyy')}
             </p>
           )}
           <p>
@@ -57,8 +58,9 @@ export default async function ProjectPage({
           <strong className='text-primary'>Milestones</strong>
           <ul className='flex flex-col gap-1'>
             {project.milestone.map((item) => (
-              <li className='ml-2' key={item.name}>
-                {item.name}
+              <li className='ml-2 flex items-center gap-2' key={item.name}>
+                <input readOnly type='checkbox' checked={item.completed} />
+                <p>{item.name}</p>
               </li>
             ))}
           </ul>
@@ -75,6 +77,18 @@ export default async function ProjectPage({
               </li>
             ))}
           </ul>
+        </div>
+        <div className='text-sm'>
+          <div className='flex items-center justify-between'>
+            <strong className='text-primary'>Emissions Calculations</strong>
+            <Link
+              className='border-primary border rounded px-2 py-1 hover:bg-primary hover:text-white transition hover:shadow-lg'
+              href={`/calculator/${project.id}`}
+            >
+              Calculate Emissions
+            </Link>
+          </div>
+          {/* More code will go here */}
         </div>
       </div>
     </div>

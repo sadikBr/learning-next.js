@@ -16,6 +16,7 @@
     "@hookform/resolvers": "^3.9.0",
     "@lordicon/react": "^1.10.0",
     "@neondatabase/serverless": "^0.10.1",
+    "date-fns": "^4.1.0",
     "drizzle-orm": "^0.34.1",
     "next": "14.2.15",
     "numeral": "^2.0.6",
@@ -26,6 +27,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/date-fns": "^2.5.3",
     "@types/node": "^20",
     "@types/numeral": "^2.0.5",
     "@types/react": "^18",
