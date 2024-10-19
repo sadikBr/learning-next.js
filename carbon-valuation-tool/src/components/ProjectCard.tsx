@@ -1,10 +1,11 @@
 import { DatabaseProject } from '@/types';
 import numeral from 'numeral';
 import Link from 'next/link';
+import { format } from 'date-fns';
 
 export default function ProjectCard({ project }: { project: DatabaseProject }) {
   return (
-    <div className='border border-secondary rounded p-4 shadow-md shadow-gray-300 bg-blue-50 flex flex-col gap-2'>
+    <div className='border-2 border-primary rounded-md p-4 shadow-md shadow-gray-300 bg-white flex flex-col gap-2'>
       <Link href={`/projects/${project.id}`}>
         <h2 className='text-xl font-semibold mb-2 text-primary flex items-center justify-between'>
           {project.title}
@@ -27,12 +28,12 @@ export default function ProjectCard({ project }: { project: DatabaseProject }) {
           </p>
           <p>
             <strong className='text-primary'>Start Date:</strong>{' '}
-            {new Date(project.startDate).toLocaleDateString()}
+            {format(new Date(project.startDate), 'EEEE, MMMM dd, yyyy')}
           </p>
           {project.endDate && (
             <p>
               <strong className='text-primary'>End Date:</strong>{' '}
-              {new Date(project.endDate).toLocaleDateString()}
+              {format(new Date(project.endDate), 'EEEE, MMMM dd, yyyy')}
             </p>
           )}
           <p>
