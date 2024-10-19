@@ -8,6 +8,7 @@ import { getAllSectors } from '@/server-actions/sectors';
 import { Project, Region, Sector } from '@/types';
 import { createNewProject, getProjectByID } from '@/server-actions/projects';
 import BaseForm from './BaseForm';
+import LoadingSpinner from '../LoadingSpinner';
 
 export default function EditProjectForm({ projectId }: { projectId: string }) {
   const [regions, setRegions] = useState<Region[]>([]);
@@ -25,8 +26,10 @@ export default function EditProjectForm({ projectId }: { projectId: string }) {
       setSectors(sectors);
       setProject(project);
     }
-    getRegionsAndSectors();
-  }, []);
+    getRegionsAndSectors().then(() => {
+      setLoading(false);
+    });
+  }, [projectId]);
 
   const {
     register,
@@ -42,12 +45,11 @@ export default function EditProjectForm({ projectId }: { projectId: string }) {
   useEffect(() => {
     if (project) {
       reset(project);
-      setLoading(false);
     }
   }, [project, reset]);
 
   return loading ? (
-    <div>Loading ....</div>
+    <LoadingSpinner />
   ) : (
     <BaseForm
       onSubmit={handleSubmit((data) => createNewProject(data))}

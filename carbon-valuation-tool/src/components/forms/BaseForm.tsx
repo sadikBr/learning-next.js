@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Control, UseFormRegister } from 'react-hook-form';
 import FormInput from '../FormInput';
 import FormSelect from '../FormSelect';
@@ -12,7 +13,9 @@ type BaseFormProps = {
   control: Control<any>;
   register: UseFormRegister<any>;
   errors: any;
-  onSubmit: (e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;
+  onSubmit: (
+    e?: BaseSyntheticEvent<object, any, any> | undefined
+  ) => Promise<void>;
   sectors: Sector[];
   regions: Region[];
   formSubmitValue: string;

@@ -118,4 +118,6 @@ export async function getProjectByID(projectId: string): Promise<Project> {
   };
 }
 
-export async function editProjectByID(project: Project) {}
+export async function editProjectByID(project: Project) {
+  console.log(project);
+}
