@@ -10,7 +10,7 @@ export default function ProjectCard({ project }: { project: DatabaseProject }) {
         <h2 className='text-xl font-semibold mb-2 text-primary flex items-center justify-between'>
           {project.title}
         </h2>
-        <p className='text-gray-500 mb-4'>{project.description}</p>
+        <p className='text-gray-500 mb-4 line-clamp-2'>{project.description}</p>
         <div className='text-sm text-gray-400'>
           <p>
             <strong className='text-primary'>Client Name:</strong>{' '}
