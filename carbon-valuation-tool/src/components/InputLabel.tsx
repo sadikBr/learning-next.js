@@ -12,7 +12,7 @@ const InputLabel: React.FC<InputLabelProps> = ({
   children,
 }) => {
   return (
-    <div className='flex flex-col w-full gap-1'>
+    <div className='flex self-start flex-col w-full gap-1'>
       <label
         className='font-semibold uppercase text-blue-950'
         htmlFor={htmlFor}

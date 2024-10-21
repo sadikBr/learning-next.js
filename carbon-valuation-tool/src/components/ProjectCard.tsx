@@ -5,13 +5,13 @@ import { format } from 'date-fns';
 
 export default function ProjectCard({ project }: { project: DatabaseProject }) {
   return (
-    <div className='border-2 border-primary rounded-md p-4 shadow-md shadow-gray-300 bg-white flex flex-col gap-2'>
+    <div className='border-2 border-primary rounded-lg p-5 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-transparent flex flex-col gap-3'>
       <Link href={`/projects/${project.id}`}>
-        <h2 className='text-xl font-semibold mb-2 text-primary flex items-center justify-between'>
+        <h2 className='text-2xl font-bold mb-3 text-primary flex items-center justify-between'>
           {project.title}
         </h2>
-        <p className='text-gray-500 mb-4 line-clamp-2'>{project.description}</p>
-        <div className='text-sm text-gray-400'>
+        <p className='text-gray-700 mb-4 line-clamp-2'>{project.description}</p>
+        <div className='text-sm text-gray-600 space-y-2'>
           <p>
             <strong className='text-primary'>Client Name:</strong>{' '}
             {project.clientName}
@@ -43,7 +43,7 @@ export default function ProjectCard({ project }: { project: DatabaseProject }) {
         </div>
       </Link>
       <Link
-        className='self-end text-sm border-primary border-2 rounded px-2 py-1 hover:bg-primary text-primary font-bold hover:text-white transition hover:shadow-primary hover:shadow-md'
+        className='self-end text-sm bg-transparent text-primary border-2 border-primary rounded-md px-4 py-2 font-bold transition-colors duration-300 hover:bg-primary hover:text-white'
         href={`/calculator/${project.id}`}
       >
         Calculate Emissions

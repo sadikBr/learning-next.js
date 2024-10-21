@@ -7,7 +7,7 @@ export default async function ProjectsPage() {
 
   return (
     <div className='container overflow-y-auto custom-home-height'>
-      <h2 className='mt-4 text-2xl font-extrabold text-primary flex items-center justify-between'>
+      <h2 className='mt-4 text-3xl font-bold text-primary flex items-center justify-between'>
         My Projects
         <Link
           className='border-primary font-semibold text-base border-2 rounded px-4 py-2 hover:bg-primary hover:text-white transition hover:shadow-lg'

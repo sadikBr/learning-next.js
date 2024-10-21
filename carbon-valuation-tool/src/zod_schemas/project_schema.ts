@@ -17,14 +17,14 @@ export const projectSchema = z
       .min(1, { message: 'The sector is a required information' }),
     clientName: z.string().min(1, { message: 'Please fill the client name' }),
     budget: z
-      .number({ required_error: 'Please set a budget for your project' })
+      .number({ invalid_type_error: 'Please set a budget for your project' })
       .min(2000, {
         message:
           'You can not have a project with budget less than 2000 dollars',
       })
       .default(0),
     startDate: z
-      .date({ required_error: 'Please select a start date' })
+      .date({ invalid_type_error: 'Please select a start date' })
       .min(new Date(), {
         message: "You can't create a project with start date in the past",
       }),
@@ -47,7 +47,7 @@ export const projectSchema = z
   })
   .refine((data) => data?.endDate && data.endDate > data.startDate, {
     message: 'End date must be after start date',
-    path: ['endDate'], // This is optional but useful for nested objects
+    path: ['endDate'],
   });
 
 export type FormData = z.infer<typeof projectSchema>;

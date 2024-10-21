@@ -18,7 +18,9 @@ const FormSelect: React.FC<FormSelectProps> = ({
 }) => {
   return (
     <select className='flex-1 px-2 py-1' id={id} {...register(id)}>
-      <option>{defaultText}</option>
+      <option value='' disabled selected>
+        {defaultText}
+      </option>
       {values.map((value, index) => (
         <option key={index} value={value.name}>
           {value.name}
