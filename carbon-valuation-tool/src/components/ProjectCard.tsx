@@ -11,7 +11,7 @@ export default function ProjectCard({ project }: { project: DatabaseProject }) {
           {project.title}
         </h2>
         <p className='text-gray-700 mb-4 line-clamp-2'>{project.description}</p>
-        <div className='text-sm text-gray-600 space-y-2'>
+        <div className='text-sm text-gray-600 space-y-1'>
           <p>
             <strong className='text-primary'>Client Name:</strong>{' '}
             {project.clientName}

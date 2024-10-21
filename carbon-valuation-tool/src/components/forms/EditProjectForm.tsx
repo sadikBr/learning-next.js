@@ -52,32 +52,20 @@ export default function EditProjectForm({ projectId }: { projectId: string }) {
   }, [project, reset]);
 
   useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       if (unsavedChanges) {
-        const confirmationMessage = confirm(
-          'You have unsaved changes. Are you sure you want to leave?'
-        );
-        e.returnValue = confirmationMessage; // For most browsers
-        return confirmationMessage; // For Firefox
-      }
-    };
-
-    const handlePopstate = (e: PopStateEvent) => {
-      if (unsavedChanges) {
-        const confirmationMessage = confirm(
-          'You have unsaved changes. Are you sure you want to leave?'
-        );
-        e.returnValue = confirmationMessage; // For most browsers
+        const confirmationMessage =
+          'You have unsaved changes. Are you sure you want to leave?';
+        event.preventDefault();
+        event.returnValue = confirmationMessage; // Most browsers
         return confirmationMessage; // For Firefox
       }
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
-    window.addEventListener('popstate', handlePopstate);
 
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
-      window.removeEventListener('popstate', handlePopstate);
     };
   }, [unsavedChanges]);
 

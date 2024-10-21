@@ -9,6 +9,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Link from 'next/link';
 import ExtendedUserButton from '@/components/ExtendedUserButton';
+import { shadesOfPurple } from '@clerk/themes';
 
 export const metadata: Metadata = {
   title: 'Carbon Valuation Tool',
@@ -21,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider appearance={{ baseTheme: shadesOfPurple }}>
       <html lang='en'>
         <body className='w-screen h-screen overflow-y-hidden'>
           <div className='w-full h-full'>
