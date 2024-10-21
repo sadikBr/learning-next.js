@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -6,7 +7,7 @@ import { projectSchema, type FormData } from '@/zod_schemas/project_schema';
 import { getAllRegions } from '@/server-actions/regions';
 import { getAllSectors } from '@/server-actions/sectors';
 import { Project, Region, Sector } from '@/types';
-import { createNewProject, getProjectByID } from '@/server-actions/projects';
+import { editProject, getProjectByID } from '@/server-actions/projects';
 import BaseForm from './BaseForm';
 import LoadingSpinner from '../LoadingSpinner';
 
@@ -16,6 +17,19 @@ export default function EditProjectForm({ projectId }: { projectId: string }) {
   const [project, setProject] = useState<Project>({} as Project);
 
   const [loading, setLoading] = useState(true);
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, dirtyFields },
+    reset,
+  } = useForm<FormData>({
+    resolver: zodResolver(projectSchema),
+    defaultValues: project,
+  });
+
+  const unsavedChanges = Object.keys(dirtyFields).length > 0;
 
   useEffect(() => {
     async function getRegionsAndSectors() {
@@ -31,33 +45,57 @@ export default function EditProjectForm({ projectId }: { projectId: string }) {
     });
   }, [projectId]);
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-    reset,
-  } = useForm<FormData>({
-    resolver: zodResolver(projectSchema),
-    defaultValues: project,
-  });
-
   useEffect(() => {
     if (project) {
       reset(project);
     }
   }, [project, reset]);
 
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (unsavedChanges) {
+        const confirmationMessage = confirm(
+          'You have unsaved changes. Are you sure you want to leave?'
+        );
+        e.returnValue = confirmationMessage; // For most browsers
+        return confirmationMessage; // For Firefox
+      }
+    };
+
+    const handlePopstate = (e: PopStateEvent) => {
+      if (unsavedChanges) {
+        const confirmationMessage = confirm(
+          'You have unsaved changes. Are you sure you want to leave?'
+        );
+        e.returnValue = confirmationMessage; // For most browsers
+        return confirmationMessage; // For Firefox
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('popstate', handlePopstate);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('popstate', handlePopstate);
+    };
+  }, [unsavedChanges]);
+
   return loading ? (
     <LoadingSpinner />
   ) : (
     <BaseForm
-      onSubmit={handleSubmit((data) => createNewProject(data))}
+      onSubmit={handleSubmit((data) => {
+        setLoading(true);
+        editProject(data, projectId);
+      })}
       control={control}
       register={register}
       errors={errors}
       sectors={sectors}
       regions={regions}
+      reset={reset}
+      showCancelButton={unsavedChanges}
       formSubmitValue='Save'
     />
   );

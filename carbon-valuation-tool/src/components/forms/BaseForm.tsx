@@ -18,6 +18,8 @@ type BaseFormProps = {
   ) => Promise<void>;
   sectors: Sector[];
   regions: Region[];
+  reset?: any;
+  showCancelButton?: boolean;
   formSubmitValue: string;
 };
 
@@ -28,6 +30,8 @@ export default function BaseForm({
   sectors,
   regions,
   control,
+  reset,
+  showCancelButton,
   formSubmitValue,
 }: BaseFormProps) {
   return (
@@ -124,11 +128,22 @@ export default function BaseForm({
         <Stakeholders control={control} errors={errors} register={register} />
       </div>
 
-      <input
-        className='self-end border-2 cursor-pointer border-primary px-4 py-2 rounded text-primary font-bold hover:text-white hover:bg-primary transition'
-        type='submit'
-        value={formSubmitValue}
-      />
+      <div className='flex self-end items-center gap-2'>
+        {showCancelButton && (
+          <button
+            type='button'
+            onClick={() => reset()}
+            className='border-2 cursor-pointer border-secondary px-4 py-2 rounded text-secondary font-bold hover:text-white hover:bg-secondary transition'
+          >
+            Cancel
+          </button>
+        )}
+        <input
+          className='border-2 cursor-pointer border-primary px-4 py-2 rounded text-primary font-bold hover:text-white hover:bg-primary transition'
+          type='submit'
+          value={formSubmitValue}
+        />
+      </div>
     </form>
   );
 }

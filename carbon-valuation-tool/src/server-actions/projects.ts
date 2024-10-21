@@ -9,6 +9,7 @@ import {
 import { Project } from '@/types';
 import { FormData } from '@/zod_schemas/project_schema';
 import { auth } from '@clerk/nextjs/server';
+import { eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export async function createNewProject(formData: FormData) {
@@ -118,6 +119,40 @@ export async function getProjectByID(projectId: string): Promise<Project> {
   };
 }
 
-export async function editProjectByID(project: Project) {
-  console.log(project);
+export async function editProject(project: FormData, projectId: string) {
+  const { milestone, stakeholder, ...projectData } = project;
+  await db.update(ProjectTable).set({
+    ...projectData,
+    budget: `$${project.budget}`,
+    startDate: project.startDate as unknown as string,
+    endDate: (projectData.endDate as unknown as string) || undefined,
+  });
+
+  await db
+    .delete(MilestoneTable)
+    .where(eq(MilestoneTable.projectId, projectId));
+  await db
+    .delete(StakeholderTable)
+    .where(eq(StakeholderTable.projectId, projectId));
+
+  for (let i = 0; i < milestone.length; i++) {
+    const item = milestone[i];
+
+    await db.insert(MilestoneTable).values({
+      name: item.name,
+      completed: item.completed,
+      projectId: projectId,
+    });
+  }
+
+  for (let i = 0; i < stakeholder.length; i++) {
+    const item = stakeholder[i];
+
+    await db.insert(StakeholderTable).values({
+      name: item.name,
+      projectId: projectId,
+    });
+  }
+
+  return redirect(`/projects/${projectId}`);
 }
