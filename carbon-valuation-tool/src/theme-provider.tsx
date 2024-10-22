@@ -1,7 +1,7 @@
 'use client';
 
 import { ClerkProvider } from '@clerk/nextjs';
-import { dark, shadesOfPurple } from '@clerk/themes';
+import { shadesOfPurple } from '@clerk/themes';
 import { createContext, useContext, useEffect } from 'react';
 import useLocalStorage from './hooks/useLocalStorage';
 
@@ -31,7 +31,13 @@ export default function ThemeProvider({
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <ClerkProvider
-        appearance={{ baseTheme: theme === 'light' ? shadesOfPurple : dark }}
+        appearance={
+          theme === 'dark'
+            ? {
+                baseTheme: shadesOfPurple,
+              }
+            : {}
+        }
       >
         {children}
       </ClerkProvider>
