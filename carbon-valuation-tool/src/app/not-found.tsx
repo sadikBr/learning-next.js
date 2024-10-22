@@ -7,7 +7,7 @@ const NotFoundPage = () => {
   return (
     <div className='w-full custom-home-height flex items-center overflow-hidden'>
       <div className='w-2/5 text-center ml-10'>
-        <div className='text-primary mb-10'>
+        <div className='text-light-primary mb-10'>
           <h2 className='font-bold text-9xl mb-4'>404</h2>
           <p className='text-6xl'>Page Not Found</p>
         </div>
@@ -17,7 +17,7 @@ const NotFoundPage = () => {
         </div>
 
         <Link
-          className='text-primary border-2 border-primary text-lg font-bold px-16 py-4 rounded hover:bg-primary hover:text-white transition-all'
+          className='text-light-primary border-2 border-light-primary text-lg font-bold px-16 py-4 rounded hover:bg-light-primary hover:text-white transition-all'
           href='/'
         >
           Go Back Home

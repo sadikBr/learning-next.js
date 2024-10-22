@@ -14,7 +14,7 @@ const InputLabel: React.FC<InputLabelProps> = ({
   return (
     <div className='flex self-start flex-col w-full gap-1'>
       <label
-        className='font-semibold uppercase text-blue-950'
+        className='font-semibold uppercase text-light-primary'
         htmlFor={htmlFor}
       >
         {value}

@@ -10,7 +10,7 @@ import { Project } from '@/types';
 import { FormData } from '@/zod_schemas/project_schema';
 import { auth } from '@clerk/nextjs/server';
 import { eq } from 'drizzle-orm';
-import { redirect } from 'next/navigation';
+import { redirect, RedirectType } from 'next/navigation';
 
 export async function createNewProject(formData: FormData) {
   const { milestone, stakeholder, ...projectData } = formData;
@@ -120,13 +120,24 @@ export async function getProjectByID(projectId: string): Promise<Project> {
 }
 
 export async function editProject(project: FormData, projectId: string) {
+  const { userId } = auth();
   const { milestone, stakeholder, ...projectData } = project;
-  await db.update(ProjectTable).set({
-    ...projectData,
-    budget: `$${project.budget}`,
-    startDate: project.startDate as unknown as string,
-    endDate: (projectData.endDate as unknown as string) || undefined,
-  });
+
+  if (!userId) {
+    throw new Error('Un-Authorized', {
+      cause: 'You are not signed in to the application',
+    });
+  }
+
+  await db
+    .update(ProjectTable)
+    .set({
+      ...projectData,
+      budget: `$${project.budget}`,
+      startDate: project.startDate as unknown as string,
+      endDate: (projectData.endDate as unknown as string) || undefined,
+    })
+    .where(eq(ProjectTable.id, projectId));
 
   await db
     .delete(MilestoneTable)
@@ -154,5 +165,5 @@ export async function editProject(project: FormData, projectId: string) {
     });
   }
 
-  return redirect(`/projects/${projectId}`);
+  return redirect(`/projects/${projectId}`, RedirectType.replace);
 }

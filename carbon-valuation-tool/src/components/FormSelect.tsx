@@ -17,7 +17,11 @@ const FormSelect: React.FC<FormSelectProps> = ({
   defaultText,
 }) => {
   return (
-    <select className='flex-1 px-2 py-1' id={id} {...register(id)}>
+    <select
+      className='flex-1 px-2 py-1 border border-light-primary outline-none rounded-md bg-transparent'
+      id={id}
+      {...register(id)}
+    >
       <option value='' disabled selected>
         {defaultText}
       </option>

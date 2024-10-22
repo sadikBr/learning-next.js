@@ -10,7 +10,7 @@ const HomePage = async () => {
   return (
     <div className='w-full custom-home-height flex items-center overflow-hidden'>
       <div className='w-1/3 text-center ml-10'>
-        <h2 className='font-bold text-7xl text-primary mb-10'>
+        <h2 className='font-bold text-7xl text-light-primary mb-10'>
           Carbon Valuation Tool
         </h2>
         <div className='text-2xl font-light mb-20 text-gray-400'>
@@ -19,7 +19,7 @@ const HomePage = async () => {
         </div>
 
         <Link
-          className='text-primary border-2 border-primary text-lg font-bold px-16 py-4 rounded hover:bg-primary hover:text-white transition-all'
+          className='text-light-primary border-2 border-light-primary text-lg font-bold px-16 py-4 rounded hover:bg-light-primary hover:text-white transition-all'
           href={`${user ? '/projects' : '/calculator'}`}
         >
           {user ? 'My Projects' : 'Test Calculator'}

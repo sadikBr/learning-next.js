@@ -6,6 +6,7 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
   theme: {
     container: {
       center: true,
@@ -15,8 +16,11 @@ const config: Config = {
     },
     extend: {
       colors: {
-        primary: 'rgb(18 50 116)',
-        secondary: 'rgb(124 172 6)',
+        light: {
+          background: 'rgb(246 252 255)',
+          primary: 'rgb(18 50 116)',
+          secondary: 'rgb(124 172 6)',
+        },
       },
     },
   },

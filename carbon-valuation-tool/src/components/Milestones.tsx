@@ -72,7 +72,7 @@ const Milestones: React.FC<MilestonesProps> = ({
 
   return (
     <div className='flex-1 self-start flex flex-col gap-1'>
-      <label className='font-semibold uppercase text-blue-950 flex items-center gap-2 mb-4'>
+      <label className='font-semibold uppercase text-light-primary flex items-center gap-2 mb-4'>
         Milestones{' '}
         <button
           type='button'
@@ -85,7 +85,7 @@ const Milestones: React.FC<MilestonesProps> = ({
         <div className='w-full flex flex-col gap-1' key={field.id}>
           <div className='flex item-center gap-1'>
             <input
-              className='flex-1 px-2 py-1'
+              className='flex-1 px-2 py-1 border border-light-primary outline-none rounded-md bg-transparent'
               {...register(`milestone.${index}.name`)}
               placeholder='Milestone name'
             />

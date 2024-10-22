@@ -1,3 +1,5 @@
+'use client';
+
 import { useTheme } from '@/theme-provider';
 
 const SunIcon = () => {
@@ -5,7 +7,7 @@ const SunIcon = () => {
     <svg
       xmlns='http://www.w3.org/2000/svg'
       xmlnsXlink='http://www.w3.org/1999/xlink'
-      fill='white'
+      fill='gold'
       height='30px'
       width='30px'
       viewBox='0 0 457.32 457.32'
@@ -48,8 +50,11 @@ export default function ThemeToggler() {
         checked={theme === 'dark'}
         onChange={toggleTheme}
       />
-      <label className='cursor-pointer' htmlFor='theme-toggle'>
-        {theme === 'light' ? <SunIcon /> : <MoonIcon />}
+      <label
+        className='hover:bg-blue-950 p-1 rounded-lg active:scale-75 cursor-pointer'
+        htmlFor='theme-toggle'
+      >
+        {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
       </label>
     </div>
   );
