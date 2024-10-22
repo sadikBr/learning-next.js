@@ -1,20 +1,12 @@
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-} from '@clerk/nextjs';
-import type { Metadata } from 'next';
+'use client';
+
+import { SignInButton, SignedIn, SignedOut } from '@clerk/nextjs';
 
 import './globals.css';
 import Link from 'next/link';
 import ExtendedUserButton from '@/components/ExtendedUserButton';
-import { shadesOfPurple } from '@clerk/themes';
-
-export const metadata: Metadata = {
-  title: 'Carbon Valuation Tool',
-  description: 'Tool to calculate and manage your company GHG emissions.',
-};
+import ThemeProvider from '@/theme-provider';
+import ThemeToggler from '@/components/ThemeToggler';
 
 export default function RootLayout({
   children,
@@ -22,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider appearance={{ baseTheme: shadesOfPurple }}>
+    <ThemeProvider>
       <html lang='en'>
         <body className='w-screen h-screen overflow-y-hidden'>
           <div className='w-full h-full'>
@@ -31,15 +23,20 @@ export default function RootLayout({
                 <h1 className='text-white font-bold text-2xl'>
                   <Link href='/'>Carbon Valuation Tool</Link>
                 </h1>
-                <div>
-                  <SignedOut>
-                    <div className='border-2 cursor-pointer px-5 py-2 border-white text-white rounded hover:text-primary hover:bg-white transition-all'>
-                      <SignInButton />
-                    </div>
-                  </SignedOut>
-                  <SignedIn>
-                    <ExtendedUserButton />
-                  </SignedIn>
+                <div className='flex items-center gap-2'>
+                  <div>
+                    <SignedOut>
+                      <div className='border-2 cursor-pointer px-5 py-2 border-white text-white rounded hover:text-primary hover:bg-white transition-all'>
+                        <SignInButton />
+                      </div>
+                    </SignedOut>
+                    <SignedIn>
+                      <ExtendedUserButton />
+                    </SignedIn>
+                  </div>
+                  <div>
+                    <ThemeToggler />
+                  </div>
                 </div>
               </div>
             </nav>
@@ -48,6 +45,6 @@ export default function RootLayout({
           </div>
         </body>
       </html>
-    </ClerkProvider>
+    </ThemeProvider>
   );
 }
