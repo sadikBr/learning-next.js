@@ -2,7 +2,8 @@
 
 import { ClerkProvider } from '@clerk/nextjs';
 import { dark, shadesOfPurple } from '@clerk/themes';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect } from 'react';
+import useLocalStorage from './hooks/useLocalStorage';
 
 type ThemeContextProps = {
   theme: 'dark' | 'light';
@@ -16,7 +17,12 @@ export default function ThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const { item: theme, setItem: setTheme } = useLocalStorage('theme');
+
+  useEffect(() => {
+    if (theme === 'dark') document.documentElement.classList.add('dark');
+    else document.documentElement.classList.remove('dark');
+  }, [theme]);
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');

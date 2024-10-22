@@ -72,7 +72,8 @@ export default function ExtendedUserButton() {
         appearance={{
           elements: {
             userButtonAvatarBox: 'w-16 h-16',
-            userButtonOuterIdentifier: 'text-white text-lg',
+            userButtonOuterIdentifier:
+              'text-white dark:text-dark-text-secondary text-lg',
             userButtonTrigger: 'px-2 py-1',
           },
         }}

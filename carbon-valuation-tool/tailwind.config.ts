@@ -21,6 +21,20 @@ const config: Config = {
           primary: 'rgb(18 50 116)',
           secondary: 'rgb(124 172 6)',
         },
+        dark: {
+          background: {
+            primary: '#0D1B2A',
+            secondary: '#1B263B',
+          },
+          text: {
+            primary: '#A3D5FF',
+            secondary: '#9CA3AF',
+          },
+          accent: {
+            primary: '#34C759',
+            secondary: '#00A982',
+          },
+        },
       },
     },
   },

@@ -133,13 +133,13 @@ export default function BaseForm({
           <button
             type='button'
             onClick={() => reset()}
-            className='border-2 cursor-pointer border-light-secondary px-4 py-2 rounded text-light-secondary font-bold hover:text-white hover:bg-light-secondary transition'
+            className='border-2 cursor-pointer border-light-secondary dark:border-dark-accent-secondary px-4 py-2 rounded text-light-secondary dark:text-dark-accent-secondary font-bold hover:text-white dark:hover:text-dark-background-primary hover:bg-light-secondary dark:hover:bg-dark-accent-secondary transition'
           >
             Cancel
           </button>
         )}
         <input
-          className='border-2 cursor-pointer border-light-primary px-4 py-2 rounded text-light-primary font-bold hover:text-white hover:bg-light-primary transition'
+          className='border-2 cursor-pointer border-light-primary px-4 py-2 rounded text-light-primary dark:border-dark-text-primary dark:text-dark-text-primary font-bold hover:text-white dark:hover:text-dark-background-primary hover:bg-light-primary dark:hover:bg-dark-text-primary transition'
           type='submit'
           value={formSubmitValue}
         />

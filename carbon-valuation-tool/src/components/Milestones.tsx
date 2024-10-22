@@ -44,7 +44,7 @@ export const PlusIcon = ({ className }: { className: string }) => {
       xmlns='http://www.w3.org/2000/svg'
       width='32'
       height='32'
-      className={className}
+      className={`${className}`}
       fill='none'
       viewBox='0 0 430 430'
     >
@@ -72,7 +72,7 @@ const Milestones: React.FC<MilestonesProps> = ({
 
   return (
     <div className='flex-1 self-start flex flex-col gap-1'>
-      <label className='font-semibold uppercase text-light-primary flex items-center gap-2 mb-4'>
+      <label className='font-semibold uppercase text-light-primary dark:text-dark-text-primary flex items-center gap-2 mb-4'>
         Milestones{' '}
         <button
           type='button'
@@ -85,12 +85,12 @@ const Milestones: React.FC<MilestonesProps> = ({
         <div className='w-full flex flex-col gap-1' key={field.id}>
           <div className='flex item-center gap-1'>
             <input
-              className='flex-1 px-2 py-1 border border-light-primary outline-none rounded-md bg-transparent'
+              className='flex-1 px-2 py-1 border border-light-primary dark:border-dark-text-primary dark:text-dark-text-secondary outline-none rounded-md bg-transparent'
               {...register(`milestone.${index}.name`)}
               placeholder='Milestone name'
             />
             <input
-              className='w-10 h-10'
+              className='w-10 h-10 dark:accent-dark-background-secondary'
               type='checkbox'
               {...register(`milestone.${index}.completed`)}
             />

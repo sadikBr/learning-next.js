@@ -18,15 +18,24 @@ const FormSelect: React.FC<FormSelectProps> = ({
 }) => {
   return (
     <select
-      className='flex-1 px-2 py-1 border border-light-primary outline-none rounded-md bg-transparent'
+      className='flex-1 px-2 py-1 border border-light-primary dark:border-dark-text-primary dark:text-dark-text-secondary outline-none rounded-md bg-transparent'
       id={id}
       {...register(id)}
     >
-      <option value='' disabled selected>
+      <option
+        className='dark:bg-dark-background-primary'
+        value=''
+        disabled
+        selected
+      >
         {defaultText}
       </option>
       {values.map((value, index) => (
-        <option key={index} value={value.name}>
+        <option
+          key={index}
+          value={value.name}
+          className='dark:bg-dark-background-primary'
+        >
           {value.name}
         </option>
       ))}
