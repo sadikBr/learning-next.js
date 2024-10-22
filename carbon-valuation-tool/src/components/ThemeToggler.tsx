@@ -47,14 +47,14 @@ export default function ThemeToggler() {
         className='sr-only'
         id='theme-toggle'
         type='checkbox'
-        checked={theme === 'dark'}
+        checked={theme.theme === 'dark'}
         onChange={toggleTheme}
       />
       <label
         className='hover:bg-blue-950 p-1 rounded-lg active:scale-75 cursor-pointer'
         htmlFor='theme-toggle'
       >
-        {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+        {theme.theme === 'dark' ? <SunIcon /> : <MoonIcon />}
       </label>
     </div>
   );

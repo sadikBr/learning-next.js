@@ -1,23 +1,39 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
-type THEME = 'dark' | 'light';
+type SetValue<T> = (value: T | ((val: T) => T)) => void;
 
-export default function useLocalStorage(key: string) {
-  const [item, setItem] = useState<THEME>(() => {
-    const item = window.localStorage.getItem(key);
-    if (item) {
-      return item as THEME;
+const useLocalStorage = <T>(key: string, initialValue: T): [T, SetValue<T>] => {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      const value = item ? JSON.parse(item) : initialValue;
+      window.localStorage.setItem(key, JSON.stringify(value));
+      return value;
+    } catch (error) {
+      console.log(error);
+      return initialValue;
     }
-    window.localStorage.setItem(key, 'dark');
-    return 'dark';
   });
 
-  useEffect(() => {
-    window.localStorage.setItem(key, item);
-  }, [item, key]);
-
-  return {
-    item,
-    setItem,
+  const setValue: SetValue<T> = (value) => {
+    try {
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.log(error);
+    }
   };
-}
+
+  useEffect(() => {
+    const storedValue = window.localStorage.getItem(key);
+    if (storedValue) {
+      setStoredValue(JSON.parse(storedValue));
+    }
+  }, [key]);
+
+  return [storedValue, setValue];
+};
+
+export default useLocalStorage;

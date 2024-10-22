@@ -6,7 +6,9 @@ import { createContext, useContext, useEffect } from 'react';
 import useLocalStorage from './hooks/useLocalStorage';
 
 type ThemeContextProps = {
-  theme: 'dark' | 'light';
+  theme: {
+    theme: 'dark' | 'light';
+  };
   toggleTheme: () => void;
 };
 
@@ -17,22 +19,25 @@ export default function ThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const { item: theme, setItem: setTheme } = useLocalStorage('theme');
+  const [theme, setTheme] = useLocalStorage<{ theme: 'dark' | 'light' }>(
+    'theme',
+    { theme: 'dark' }
+  );
 
   useEffect(() => {
-    if (theme === 'dark') document.documentElement.classList.add('dark');
+    if (theme.theme === 'dark') document.documentElement.classList.add('dark');
     else document.documentElement.classList.remove('dark');
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
+    setTheme(theme.theme === 'light' ? { theme: 'dark' } : { theme: 'light' });
   };
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <ClerkProvider
         appearance={
-          theme === 'dark'
+          theme.theme === 'dark'
             ? {
                 baseTheme: shadesOfPurple,
               }
