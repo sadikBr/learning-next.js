@@ -4,6 +4,9 @@ type SetValue<T> = (value: T | ((val: T) => T)) => void;
 
 const useLocalStorage = <T>(key: string, initialValue: T): [T, SetValue<T>] => {
   const [storedValue, setStoredValue] = useState<T>(() => {
+    if (typeof window === 'undefined') {
+      return initialValue;
+    }
     try {
       const item = window.localStorage.getItem(key);
       const value = item ? JSON.parse(item) : initialValue;
@@ -20,16 +23,20 @@ const useLocalStorage = <T>(key: string, initialValue: T): [T, SetValue<T>] => {
       const valueToStore =
         value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    const storedValue = window.localStorage.getItem(key);
-    if (storedValue) {
-      setStoredValue(JSON.parse(storedValue));
+    if (typeof window !== 'undefined') {
+      const storedValue = window.localStorage.getItem(key);
+      if (storedValue) {
+        setStoredValue(JSON.parse(storedValue));
+      }
     }
   }, [key]);
 
