@@ -2,7 +2,7 @@
 import React from 'react';
 import { useFieldArray, Control, UseFormRegister } from 'react-hook-form';
 import { FormData } from '@/zod_schemas/project_schema';
-import { BinIcon, PlusIcon } from './Milestones';
+import { PlusCircleIcon, TrashIcon } from 'lucide-react';
 
 interface StakeholdersProps {
   control: Control<FormData>;
@@ -25,7 +25,7 @@ const Stakeholders: React.FC<StakeholdersProps> = ({
       <label className='font-semibold uppercase text-light-primary dark:text-dark-text-primary flex items-center gap-2 mb-4'>
         Stakeholders{' '}
         <button type='button' onClick={() => append({ name: '' })}>
-          <PlusIcon className='hover:scale-105' />
+          <PlusCircleIcon className='hover:scale-105' />
         </button>
       </label>
       {fields.map((field, index) => (
@@ -37,7 +37,7 @@ const Stakeholders: React.FC<StakeholdersProps> = ({
               placeholder='Stakeholder name'
             />
             <button type='button' onClick={() => remove(index)}>
-              <BinIcon className='hover:scale-105' />
+              <TrashIcon color='red' size={36} className='hover:scale-105' />
             </button>
           </div>
           {errors.stakeholder?.[index].name && (
