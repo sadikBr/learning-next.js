@@ -38,7 +38,6 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       }}
     >
       <html lang='en' suppressHydrationWarning>
-        <head />
         <body
           className={`${inter.variable} ${poppins.variable} font-sans h-screen overflow-scroll`}
         >
