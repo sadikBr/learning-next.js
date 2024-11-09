@@ -7,6 +7,8 @@ import {
 } from './projects-db';
 import { ProjectDatabaseData } from './project-types';
 import projectSchema, { FormData } from '@/zod-schemas/project';
+import { createMilestone } from '../milestones/milestones';
+import { createStakeholder } from '../stakeholders/stakeholders';
 
 type ServerResponse = {
   error: boolean;
@@ -33,18 +35,31 @@ export async function createProject(unsafeData: FormData) {
     };
   }
 
+  const { milestone, stakeholder, ...projectData } = unsafeData;
+
   try {
     const projectId = await createProjectInternal({
-      ...unsafeData,
+      ...projectData,
       startDate: unsafeData.startDate as unknown as string,
       endDate: (unsafeData.endDate as unknown as string) || undefined,
       budget: `$${unsafeData.budget}`,
       clerk_user_id: userId,
     });
 
+    for (let i = 0; i < milestone.length; i++) {
+      await createMilestone({ ...milestone[i], projectId });
+    }
+
+    for (let i = 0; i < stakeholder.length; i++) {
+      await createStakeholder({
+        ...stakeholder[i],
+        projectId,
+      });
+    }
+
     return {
       error: false,
-      message: 'The user has been successfully created',
+      message: 'The project has been successfully created',
       projectId,
     };
   } catch (error) {
