@@ -22,7 +22,7 @@ import {
 import Container from '@/components/container';
 import { formatDate, formatNumber } from '@/lib/formatters';
 
-export default function ProjectDetails() {
+export default async function ProjectDetails() {
   const project = {
     id: '5cd2095e-92a1-4c47-966a-58e69f793875',
     title: 'This is the title of the project (Updated !!)',
