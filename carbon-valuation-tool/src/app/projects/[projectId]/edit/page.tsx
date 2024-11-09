@@ -52,7 +52,7 @@ export default function ProjectEdit() {
 
   return (
     <Container>
-      <Card className='bg-transparent shadow-none border-none'>
+      <Card className='bg-transparent shadow-none border-none w-full'>
         <CardHeader>
           <CardTitle className='text-2xl font-bold text-green-700 dark:text-green-400 flex items-center'>
             <Briefcase className='mr-2 h-6 w-6' />

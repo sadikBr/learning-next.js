@@ -7,7 +7,12 @@ interface ContainerProps extends PropsWithChildren {
 
 export default function Container({ children, className }: ContainerProps) {
   return (
-    <div className={`${cn('container mx-auto w-full max-w-7xl', className)}`}>
+    <div
+      className={`${cn(
+        'container mx-auto w-full max-w-screen-2xl',
+        className
+      )}`}
+    >
       {children}
     </div>
   );

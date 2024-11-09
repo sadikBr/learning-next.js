@@ -17,52 +17,27 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { PlusCircle, Eye, Edit, Trash2 } from 'lucide-react';
+import {
+  PlusCircle,
+  Eye,
+  Edit,
+  Trash2,
+  DollarSign,
+  Calendar,
+  MapPin,
+} from 'lucide-react';
 import Container from '@/components/container';
+import { getAllProjectsForAUser } from '@/server/projects/projects';
+import { formatDate, formatNumber } from '@/lib/formatters';
 
-export default function ProjectsList() {
-  const projects = [
-    {
-      id: 1,
-      name: 'Project A',
-      sector: 'Energy',
-      startDate: '2023-01-15',
-      totalEmissions: 1500,
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Project B',
-      sector: 'Manufacturing',
-      startDate: '2023-02-01',
-      totalEmissions: 2200,
-      status: 'Active',
-    },
-    {
-      id: 3,
-      name: 'Project C',
-      sector: 'Transport',
-      startDate: '2023-03-10',
-      totalEmissions: 1800,
-      status: 'Completed',
-    },
-    {
-      id: 4,
-      name: 'Project D',
-      sector: 'Agriculture',
-      startDate: '2023-04-05',
-      totalEmissions: 900,
-      status: 'Active',
-    },
-    {
-      id: 5,
-      name: 'Project E',
-      sector: 'Energy',
-      startDate: '2023-05-20',
-      totalEmissions: 1100,
-      status: 'On Hold',
-    },
-  ];
+export default async function ProjectsList() {
+  const { error, message, data: projects } = await getAllProjectsForAUser();
+
+  if (error) throw new Error(message);
+
+  if (!projects) {
+    return <Container>{message}</Container>;
+  }
 
   return (
     <Container>
@@ -104,9 +79,9 @@ export default function ProjectsList() {
                   <SelectValue placeholder='Sort by' />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value='name'>Name</SelectItem>
-                  <SelectItem value='emissions'>Total Emissions</SelectItem>
-                  <SelectItem value='date'>Start Date</SelectItem>
+                  <SelectItem value='title'>Title</SelectItem>
+                  <SelectItem value='budget'>Budget</SelectItem>
+                  <SelectItem value='startDate'>Start Date</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -114,37 +89,36 @@ export default function ProjectsList() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className='w-[250px]'>Project Name</TableHead>
+                <TableHead className='w-[250px]'>Project Title</TableHead>
                 <TableHead>Sector</TableHead>
+                <TableHead>Region</TableHead>
                 <TableHead>Start Date</TableHead>
-                <TableHead className='text-right'>
-                  Total Emissions (kg CO2e)
-                </TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead className='text-right'>Budget</TableHead>
                 <TableHead className='text-right'>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {projects.map((project) => (
                 <TableRow key={project.id}>
-                  <TableCell className='font-medium'>{project.name}</TableCell>
+                  <TableCell className='font-medium'>{project.title}</TableCell>
                   <TableCell>{project.sector}</TableCell>
-                  <TableCell>{project.startDate}</TableCell>
-                  <TableCell className='text-right'>
-                    {project.totalEmissions.toLocaleString()}
+                  <TableCell>
+                    <div className='flex items-center'>
+                      <MapPin className='h-4 w-4 mr-1 text-green-800' />
+                      {project.region}
+                    </div>
                   </TableCell>
                   <TableCell>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                        project.status === 'Active'
-                          ? 'bg-green-200 text-green-800'
-                          : project.status === 'Completed'
-                          ? 'bg-blue-200 text-blue-800'
-                          : 'bg-yellow-200 text-yellow-800'
-                      }`}
-                    >
-                      {project.status}
-                    </span>
+                    <div className='flex items-center'>
+                      <Calendar className='h-4 w-4 mr-1 text-green-800' />
+                      {formatDate(new Date(project.startDate))}
+                    </div>
+                  </TableCell>
+                  <TableCell className='text-right'>
+                    <div className='flex items-center justify-end'>
+                      <DollarSign className='h-4 w-4 mr-1 text-green-800' />
+                      {formatNumber(Number(project.budget.replace('$', '')))}
+                    </div>
                   </TableCell>
                   <TableCell className='text-right'>
                     <Button variant='ghost' size='sm' asChild>
@@ -157,8 +131,8 @@ export default function ProjectsList() {
                         <Edit className='h-4 w-4' />
                       </Link>
                     </Button>
-                    <Button variant='ghost' size='sm'>
-                      <Trash2 className='h-4 w-4' />
+                    <Button className='group' variant='ghost' size='sm'>
+                      <Trash2 className='h-4 w-4 group-hover:text-red-500 transition' />
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -175,11 +149,14 @@ export default function ProjectsList() {
             {new Set(projects.map((p) => p.sector)).size} sectors.
           </p>
           <p className='mb-4'>
-            Total emissions tracked:{' '}
-            {projects
-              .reduce((sum, p) => sum + p.totalEmissions, 0)
-              .toLocaleString()}{' '}
-            kg CO2e
+            Total budget managed:{' '}
+            {formatNumber(
+              projects.reduce(
+                (sum, project) =>
+                  sum + parseInt(project.budget.replace(/[^0-9]/g, '')),
+                0
+              )
+            )}
           </p>
           <Button
             variant='secondary'

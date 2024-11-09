@@ -13,7 +13,7 @@ export default async function HomePage() {
 
   return (
     <Container>
-      <div className='flex flex-col md:flex-row items-center justify-between mb-16'>
+      <div className='w-full flex flex-col md:flex-row items-center justify-between mb-16'>
         <div className='md:w-1/2 mb-8 md:mb-0'>
           <h1 className='text-4xl md:text-6xl font-bold mb-4 font-heading'>
             <span className='bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-blue-600 dark:from-green-400 dark:to-blue-400'>
@@ -72,7 +72,7 @@ export default async function HomePage() {
           />
         </div>
       </div>
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-8 mb-16'>
+      <div className='w-full grid grid-cols-1 md:grid-cols-3 gap-8 mb-16'>
         <FeatureCard
           icon={
             <BarChart2 className='h-10 w-10 text-green-600 dark:text-white' />
@@ -92,7 +92,7 @@ export default async function HomePage() {
         />
       </div>
       {!user ? (
-        <div className='text-center rounded-lg p-8'>
+        <div className='w-full text-center rounded-lg p-8'>
           <h2 className='text-3xl font-bold mb-4 font-heading'>
             <span className='bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-blue-600 dark:from-green-400 dark:to-blue-400'>
               Ready to Make a Difference?
@@ -114,7 +114,7 @@ export default async function HomePage() {
           </Button>
         </div>
       ) : (
-        <h1>Analytics (coming soon)</h1>
+        <h1 className='w-full'>Analytics (coming soon)</h1>
       )}
     </Container>
   );
