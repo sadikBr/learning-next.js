@@ -4,7 +4,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { Leaf } from 'lucide-react';
 import { ThemeProvider as NextThemeProvider } from 'next-themes';
 import Link from 'next/link';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, Suspense } from 'react';
 
 import Container from '@/components/container';
 import ExtendedUserButton from '@/components/extended-user-button';
@@ -13,6 +13,7 @@ import { shadesOfPurple } from '@clerk/themes';
 import { Inter, Poppins } from 'next/font/google';
 
 import '@/app/globals.css';
+import LoadingSpinner from '@/components/loading-spinner';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const poppins = Poppins({
@@ -76,7 +77,9 @@ export default async function RootLayout({ children }: PropsWithChildren) {
                 </Container>
               </header>
               <main className='px-4 py-8 flex-1 bg-white dark:bg-gray-800'>
+                {/* <Suspense fallback={<LoadingSpinner />}> */}
                 {children}
+                {/* </Suspense> */}
               </main>
               <footer className='bg-white/80 dark:bg-gray-800/80 backdrop-blur-md mt-auto'>
                 <Container className='px-4 py-6 text-center text-gray-600 dark:text-gray-400'>
