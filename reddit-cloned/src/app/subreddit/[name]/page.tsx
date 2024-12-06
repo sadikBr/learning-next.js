@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Link } from "@nextui-org/react";
 
 export default async function SubredditPage({
   params: { name },
@@ -8,7 +8,7 @@ export default async function SubredditPage({
   params: { name: string };
 }) {
   const response = await fetch(
-    `https://www.reddit.com/r/${name}.json?limit=50`
+    `https://www.reddit.com/r/${name.split(" ").join("")}.json?limit=50`
   );
   const json = await response.json();
 
@@ -30,7 +30,12 @@ export default async function SubredditPage({
             <p className="mb-4 line-clamp-1 text-ellipsis text-tiny font-bold uppercase">
               {post.data.title}
             </p>
-            <h4 className="text-large font-bold">u/{post.data.author}</h4>
+            <Link
+              href={`/subreddit/${post.data.subreddit.toLowerCase()}`}
+              className="text-large font-bold"
+            >
+              {post.data.subreddit}
+            </Link>
           </CardHeader>
           <CardBody className="w-full overflow-visible py-2">
             {post.data.post_hint === "image" ? (

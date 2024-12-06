@@ -6,12 +6,15 @@ const nextConfig = {
         protocol: "https",
         hostname: "**",
       },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
     ],
   },
   experimental: {
     typedRoutes: true,
   },
-  crossOrigin: "anonymous",
 };
 
 export default nextConfig;

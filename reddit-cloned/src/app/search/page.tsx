@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 import { Card, CardBody, Input, Link, User } from "@nextui-org/react";
 
@@ -14,7 +15,14 @@ export default function SearchPage() {
   >([]);
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+
   const timeout = useRef<NodeJS.Timeout | null>(null);
+
+  function handleFormSubmit(event: FormEvent) {
+    event.preventDefault();
+    router.push(`/search/${searchTerm}`);
+  }
 
   useEffect(() => {
     if (!searchTerm) return;
@@ -27,7 +35,7 @@ export default function SearchPage() {
 
     async function fetchSubreddits() {
       const response = await fetch(
-        `https://www.reddit.com/r/subreddit/search.json?type=sr&q=${searchTerm}&limit=15&include_over_18=true`
+        `https://www.reddit.com/r/subreddit/search.json?type=sr&q=${searchTerm}&limit=15`
       );
       const json = await response.json();
 
@@ -55,14 +63,17 @@ export default function SearchPage() {
 
   return (
     <div className="mx-auto my-8 grid w-full max-w-xl grid-cols-3 gap-4">
-      <div className="col-span-full mx-auto mb-2 w-full max-w-sm">
+      <form
+        onSubmit={handleFormSubmit}
+        className="col-span-full mx-auto mb-2 w-full max-w-sm"
+      >
         <Input
           type="text"
           label="🔍 Search"
           value={searchTerm}
           onInput={(event) => setSearchTerm(event.currentTarget.value)}
         />
-      </div>
+      </form>
 
       <Card className="col-span-full flex flex-col gap-4">
         {(loading || (subreddits && subreddits.length > 0)) && (
@@ -73,7 +84,7 @@ export default function SearchPage() {
               subreddits.map((subreddit) => (
                 <Link
                   key={subreddit.displayName}
-                  href={`/subreddit/${subreddit.displayName}`}
+                  href={`/subreddit/${subreddit.displayName.toLowerCase()}`}
                 >
                   <User
                     name={subreddit.displayName}

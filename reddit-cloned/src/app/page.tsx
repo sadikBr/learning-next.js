@@ -31,7 +31,12 @@ export default async function Home() {
               <p className="mb-4 line-clamp-1 text-ellipsis text-tiny font-bold uppercase">
                 {post.data.title}
               </p>
-              <h4 className="text-large font-bold">u/{post.data.author}</h4>
+              <Link
+                href={`/subreddit/${post.data.subreddit.toLowerCase()}`}
+                className="text-large font-bold"
+              >
+                {post.data.subreddit}
+              </Link>
             </CardHeader>
             <CardBody className="w-full overflow-visible py-2">
               {post.data.post_hint === "image" ? (
